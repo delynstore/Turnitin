@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delyn Store | Cek Turnitin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <img src="logo.png" alt="Delyn Store Logo" height="40">
+            <span>Delyn Store</span>
+        </div>
+    </header>
+
+    <main id="form-container">
+        <form id="step1" class="form-step active">
+            <h2>Upload File</h2>
+            <label>File Dokumen:
+                <input type="file" name="file" required>
+            </label>
+
+            <label>
+                <input type="checkbox" id="filterSourceCheckbox"> Kecualikan sumber tertentu
+            </label>
+            <div id="sourceDetails" style="display:none;">
+                <label>Masukkan jumlah kata / persen sumber yang ingin dikecualikan:
+                    <input type="text" name="sourceDetail" placeholder="Contoh: 10% atau 50 kata">
+                </label>
+            </div>
+
+            <label>No WhatsApp:
+                <input type="text" name="whatsapp" required placeholder="08xxxxxxxxxx">
+            </label>
+
+            <button type="button" onclick="goToStep(2)">Pilih Pembayaran</button>
+        </form>
+
+        <form id="step2" class="form-step">
+            <h2>Pilih Pembayaran</h2>
+
+            <label>Metode Pembayaran:
+                <select id="paymentMethod" onchange="showQR()">
+                    <option value="">-- Pilih --</option>
+                    <option value="qris">QRIS</option>
+                    <option value="dana">DANA</option>
+                    <option value="spay">ShopeePay</option>
+                    <option value="gopay">GoPay</option>
+                    <option value="lainnya">Lainnya</option>
+                </select>
+            </label>
+
+            <div id="paymentInfo" style="display:none;">
+                <p>Total: <strong>Rp2.500</strong></p>
+                <img src="qris.jpg" alt="QRIS" width="200">
+            </div>
+
+            <label>Bukti Pembayaran:
+                <input type="file" name="bukti" required>
+            </label>
+
+            <div class="terms">
+                <small>Dengan menekan tombol Proses, Anda dianggap telah membaca dan menyetujui syarat & ketentuan.</small>
+            </div>
+
+            <button type="button" onclick="goToStep(3)">Proses</button>
+        </form>
+
+        <div id="step3" class="form-step">
+            <h2>Terima Kasih!</h2>
+            <p>File Anda sedang diproses. Hasil akan dikirimkan ke WhatsApp Anda dalam waktu maksimal 3 jam.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Delyn Store</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
