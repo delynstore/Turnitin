@@ -1,83 +1,177 @@
-
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delyn Store | Cek Turnitin</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cek Plagiasi - DELYN STORE</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    .background {
+      background-image: url('background.jpg'); /* Ganti dengan nama file background */
+      background-size: cover;
+      background-position: center;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="file"],
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .checkbox-group {
+      margin-left: 15px;
+    }
+
+    .qris {
+      display: none;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    button {
+      background-color: #000;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
+      font-size: 14px;
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <div class="brand">
-            <img src="RE-BRANDING.png" alt="Delyn Store Logo" height="40">
-            <span>Delyn Store</span>
+  <div class="background">
+    <div class="form-container">
+      <h2 style="text-align: center;">Cek Plagiasi oleh Delyn Store</h2>
+      <form id="plagiarismForm">
+        <!-- Upload File -->
+        <div class="form-group">
+          <label for="fileUpload">Unggah File (.pdf / .docx):</label>
+          <input type="file" id="fileUpload" name="fileUpload" accept=".pdf,.docx" required />
         </div>
-    </header>
 
-    <main id="form-container">
-        <form id="step1" class="form-step active">
-            <h2>Upload File</h2>
-            <label>File Dokumen:
-                <input type="file" name="file" required>
-            </label>
-
-            <label>
-                <input type="checkbox" id="filterSourceCheckbox"> Kecualikan sumber tertentu
-            </label>
-            <div id="sourceDetails" style="display:none;">
-                <label>Masukkan jumlah kata / persen sumber yang ingin dikecualikan:
-                    <input type="text" name="sourceDetail" placeholder="Contoh: 1% atau 10 kata">
-                </label>
-            </div>
-
-            <label>No WhatsApp:
-                <input type="text" name="whatsapp" required placeholder="628xxxxxxxxxx">
-            </label>
-
-            <button type="button" onclick="goToStep(2)">Pilih Pembayaran</button>
-        </form>
-
-        <form id="step2" class="form-step">
-            <h2>Pilih Pembayaran</h2>
-
-            <label>Metode Pembayaran:
-                <select id="paymentMethod" onchange="showQR()">
-                    <option value="">-- Pilih --</option>
-                    <option value="qris">QRIS</option>
-                    <option value="dana">DANA</option>
-                    <option value="spay">ShopeePay</option>
-                    <option value="gopay">GoPay</option>
-                    <option value="lainnya">Lainnya</option>
-                </select>
-            </label>
-
-            <div id="paymentInfo" style="display:none;">
-                <p>Total: <strong>Rp2.500</strong></p>
-                <img src="QRIS DELYN STORE (1080 x 1080 piksel).png" alt="QRIS" width="200">
-            </div>
-
-            <label>Bukti Pembayaran:
-                <input type="file" name="bukti" required>
-            </label>
-
-            <div class="terms">
-                <small>Dengan menekan tombol Proses, Anda dianggap telah membaca dan menyetujui syarat & ketentuan.</small>
-            </div>
-
-            <button type="button" onclick="goToStep(3)">Proses</button>
-        </form>
-
-        <div id="step3" class="form-step">
-            <h2>Terima Kasih!</h2>
-            <p>File Anda sedang diproses. Hasil akan dikirimkan ke WhatsApp Anda dalam waktu maksimal 3 jam.</p>
+        <!-- Filter -->
+        <div class="form-group">
+          <label>Pakai filter nggak bludss?</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="filter" value="pustaka"> Ex-daftar pustaka</label><br />
+            <label><input type="checkbox" name="filter" value="kutipan"> Ex-kutipan</label><br />
+            <label><input type="checkbox" id="exSource"> Ex-source</label>
+          </div>
         </div>
-    </main>
 
-    <footer>
-        <p>&copy; 2025 Delyn Store</p>
-    </footer>
+        <!-- Input jika ex-source dicentang -->
+        <div class="form-group" id="sourceInput" style="display: none;">
+          <label for="sourceValue">Jumlah kata / persen yang ingin dikecualikan:</label>
+          <input type="text" id="sourceValue" name="sourceValue" placeholder="Contoh: 10 kata atau 5%" />
+        </div>
 
-    <script src="script.js"></script>
+        <!-- WhatsApp -->
+        <div class="form-group">
+          <label for="whatsapp">Nomor WhatsApp:</label>
+          <input type="text" id="whatsapp" name="whatsapp" placeholder="08xxxxxxxxxx" required />
+        </div>
+
+        <!-- Metode Pembayaran -->
+        <div class="form-group">
+          <label for="paymentMethod">Pilih Metode Pembayaran:</label>
+          <select id="paymentMethod" name="paymentMethod" required>
+            <option value="">--Pilih--</option>
+            <option value="qris">QRIS</option>
+            <option value="dana">DANA</option>
+            <option value="gopay">GoPay</option>
+            <option value="spay">ShopeePay</option>
+          </select>
+        </div>
+
+        <!-- Harga -->
+        <div id="totalHarga" style="text-align: center; font-weight: bold; display: none;">Total: Rp2.500</div>
+
+        <!-- Gambar QRIS -->
+        <div class="qris" id="qrisContainer">
+          <img src="qris.jpg" alt="QRIS Pembayaran" style="max-width: 100%; border-radius: 8px;" />
+        </div>
+
+        <!-- Upload Bukti Pembayaran -->
+        <div class="form-group">
+          <label for="paymentProof">Upload Bukti Pembayaran (gambar):</label>
+          <input type="file" id="paymentProof" name="paymentProof" accept="image/*" required />
+        </div>
+
+        <!-- Terms & Conditions -->
+        <p style="font-size: 14px; text-align: center;">
+          Dengan melanjutkan, Anda menyetujui <a href="https://sites.google.com/view/terms-and-conditions" target="_blank">Syarat & Ketentuan</a>.
+        </p>
+
+        <!-- Tombol Proses -->
+        <button type="submit">Proses</button>
+      </form>
+      <footer>
+        &copy; 2025 Delyn Store. All rights reserved.
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("exSource").addEventListener("change", function () {
+      document.getElementById("sourceInput").style.display = this.checked ? "block" : "none";
+    });
+
+    document.getElementById("paymentMethod").addEventListener("change", function () {
+      const qrisContainer = document.getElementById("qrisContainer");
+      const totalHarga = document.getElementById("totalHarga");
+      if (this.value) {
+        totalHarga.style.display = "block";
+        qrisContainer.style.display = "block";
+      } else {
+        totalHarga.style.display = "none";
+        qrisContainer.style.display = "none";
+      }
+    });
+  </script>
 </body>
+
 </html>
